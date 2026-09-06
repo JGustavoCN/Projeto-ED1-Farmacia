@@ -1,0 +1,58 @@
+# ==============================================================================
+# Git Ignore - Projeto Java / Maven / NetBeans (Projeto Farmácia)
+# ==============================================================================
+
+# Compilação do Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Classes compiladas
+*.class
+
+# Pacotes e artefatos de build (ignora jar solto, mas PRESERVA a pasta library/)
+*.war
+*.ear
+*.nar
+/target/*.jar
+
+# Preservar dependências essenciais locais em library/
+!/library/*.jar
+
+# NetBeans IDE
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Logs e arquivos de execução temporários
+*.log
+*.tmp
+*.bak
+
+# Arquivos do Sistema Operacional (Windows / Mac)
+Thumbs.db
+Desktop.ini
+.DS_Store
+$RECYCLE.BIN/

@@ -1,0 +1,26 @@
+# ==============================================================================
+# Git Attributes - Normalização de Finais de Linha (CRLF vs LF) e Binários
+# ==============================================================================
+
+# Normalização automática de arquivos de texto (converte para LF no repositório)
+* text=auto
+
+# Arquivos de código-fonte e configuração (forçar LF)
+*.java text eol=lf
+*.xml text eol=lf
+*.properties text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.jrxml text eol=lf
+*.svg text eol=lf
+*.form text eol=lf
+
+# Arquivos Binários (não tentar alterar quebra de linha para não corromper)
+*.jar binary
+*.dat binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
