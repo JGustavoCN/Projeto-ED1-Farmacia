@@ -29,6 +29,8 @@ Diferente de sistemas acadêmicos convencionais que utilizam apenas telas cinzas
 1. **Rigor Algorítmico:** Implementar as estruturas de dados de base (**Lista Encadeada**, **Fila** e **Pilha**) manualmente com manipulação de nós de memória.
 2. **Experiência de Usuário de Alto Padrão (UI/UX):** Provar que aplicações desktop em **Java Swing** podem ser elegantes, fluidas e modernas através da integração de **FlatLaf**, animações com **TimingFramework**, componentes customizados e **MigLayout**.
 
+> 📄 *Para consultar os requisitos acadêmicos completos, o detalhamento das camadas e as referências visuais do Dribbble, acesse o documento de [Especificação e Planejamento Técnico](docs/especificacao.md).*
+
 ---
 
 ## 🚀 Funcionalidades Principais
