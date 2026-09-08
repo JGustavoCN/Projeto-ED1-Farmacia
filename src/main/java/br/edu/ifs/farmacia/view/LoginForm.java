@@ -2,6 +2,7 @@ package br.edu.ifs.farmacia.view;
 
 import br.edu.ifs.farmacia.controller.LoginController;
 import br.edu.ifs.farmacia.controller.MainController;
+import br.edu.ifs.farmacia.util.ImageLoader;
 import br.edu.ifs.farmacia.view.component.PanelCover;
 import br.edu.ifs.farmacia.view.component.PanelLogin;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -19,6 +20,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import raven.toast.Notifications;
 
 public class LoginForm extends javax.swing.JFrame {
 
@@ -40,12 +42,12 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void carregarIcone() {
         try {
-            java.net.URL logoUrl = getClass().getResource("/imagens/logo.png");
-            if (logoUrl != null) {
-                setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(logoUrl));
+            java.util.List<java.awt.Image> icons = ImageLoader.loadWindowIcons("logo.png");
+            if (!icons.isEmpty()) {
+                setIconImages(icons);
             }
         } catch (Exception e) {
-            // Log ou fallback silencioso
+            // Fallback silencioso
         }
     }
 
@@ -54,7 +56,7 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     private void init() {
-        
+        Notifications.getInstance().setJFrame(this);
         bg.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:25;"
                 + "background:$Table.background");
@@ -77,12 +79,21 @@ public class LoginForm extends javax.swing.JFrame {
         });
     }
     
-    
     public void login() {
         final String userName = loginPanel.getUserName();
         final String userPassword = loginPanel.getPassword();
+        
+        if (userName.isEmpty() || userPassword.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Por favor, preencha o usuário e a senha.");
+            return;
+        }
+
         boolean resposta = LoginController.getInstance().logar(userName, userPassword);
-        MainController.getInstance().logar(resposta);
+        if (resposta) {
+            MainController.getInstance().logar(true);
+        } else {
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Credenciais inválidas. Verifique seu usuário e senha.");
+        }
     }
     
     private Animator getAnimator(TimingTarget timingTarget){
@@ -178,24 +189,6 @@ public class LoginForm extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         FlatRobotoFont.install();
-        // Caminho para o arquivo FlatLaf.properties
-//        try {
-//            File file = new File("src\\main\\resources\\themes\\FlatLaf.properties");
-//
-//            // Verifica se o arquivo existe
-//            if (file.exists()) {
-//
-//                // Registra o local customizado para o FlatLaf
-//                FlatLaf.registerCustomDefaultsSource(file);
-//
-//                // Inicia a aplicação ou outras operações
-//                System.out.println("Tema customizado carregado: " + file);
-//            } else {
-//                System.err.println("O arquivo não foi encontrado: " + file.getAbsolutePath());
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         FlatLaf.registerCustomDefaultsSource("themes");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         FlatIntelliJLaf.setup();

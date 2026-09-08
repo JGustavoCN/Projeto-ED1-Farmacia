@@ -1,6 +1,7 @@
 package br.edu.ifs.farmacia.view;
 
 import br.edu.ifs.farmacia.controller.MainController;
+import br.edu.ifs.farmacia.util.ImageLoader;
 import br.edu.ifs.farmacia.view.component.PanelProdutos;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
@@ -27,12 +28,12 @@ public class MainForm extends javax.swing.JFrame {
 
     private void carregarIcone() {
         try {
-            java.net.URL logoUrl = getClass().getResource("/imagens/logo.png");
-            if (logoUrl != null) {
-                setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(logoUrl));
+            java.util.List<java.awt.Image> icons = ImageLoader.loadWindowIcons("logo.png");
+            if (!icons.isEmpty()) {
+                setIconImages(icons);
             }
         } catch (Exception e) {
-            // Log ou fallback silencioso
+            // Fallback silencioso
         }
     }
 

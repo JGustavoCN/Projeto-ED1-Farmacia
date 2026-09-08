@@ -3,7 +3,7 @@ package br.edu.ifs.farmacia.report;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.JOptionPane;
+import raven.toast.Notifications;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -47,8 +47,7 @@ public class ReportManager {
     private InputStream getReportStream(String reportPath) {
         InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(reportPath);
         if (stream == null) {
-            JOptionPane.showMessageDialog(null, "Arquivo de relatório não encontrado: " + reportPath,
-                    "Erro de Relatório", JOptionPane.ERROR_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Arquivo de relatório não encontrado: " + reportPath);
         }
         return stream;
     }

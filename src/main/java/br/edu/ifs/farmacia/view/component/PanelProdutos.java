@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import javax.swing.JOptionPane;
+import br.edu.ifs.farmacia.util.ImageLoader;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import raven.modal.ModalDialog;
@@ -90,7 +90,7 @@ public class PanelProdutos extends javax.swing.JPanel {
             ReportManager.getInstance().compileReport();
         } catch (JRException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e+" - "+e.getMessage());
+            Notifications.getInstance().show(Notifications.Type.WARNING, "Aviso ao carregar modelos de relatórios: " + e.getMessage());
         }
 
         panel.putClientProperty(FlatClientProperties.STYLE, ""
@@ -118,10 +118,14 @@ public class PanelProdutos extends javax.swing.JPanel {
                 + "thumbInsets:3,3,3,3;"
                 + "background:$Table.background;");
 
+        // Cabecalho institucional com Logo oficial e titulo destacado
+        lbTitle.setIcon(ImageLoader.loadImage("logo.png", 32, 32));
+        lbTitle.setText(" PharmaStation • Controle de Estoque");
+        lbTitle.setIconTextGap(10);
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +5;");
 
-        txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
+        txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Buscar por nome, código ou marca...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("imagens/search.svg"));
         txtSearch.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:15;"
@@ -130,6 +134,24 @@ public class PanelProdutos extends javax.swing.JPanel {
                 + "innerFocusWidth:0;"
                 + "margin:5,20,5,20;"
                 + "background:$Panel.background");
+
+        // Busca reativa em tempo real na tabela ao digitar
+        txtSearch.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                loadData();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                loadData();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                loadData();
+            }
+        });
 
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
         table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table));
@@ -144,10 +166,34 @@ public class PanelProdutos extends javax.swing.JPanel {
         model.setRowCount(0);
 
         Lista<Produto> lista = checkOrdenarPorNome.isSelected() ? produtoController.listaOrdenadaPorNome() : produtoController.lista();
+        String termo = (txtSearch != null && txtSearch.getText() != null) ? txtSearch.getText().trim().toLowerCase() : "";
 
+        int contador = 1;
         for (int i = 0; i < lista.tamanho(); i++) {
-            model.addRow(ProdutoUtil.produtoToTableRow(lista.pegar(i), i + 1));
+            Produto p = lista.pegar(i);
+            if (termo.isEmpty() || correspondeBusca(p, termo)) {
+                model.addRow(ProdutoUtil.produtoToTableRow(p, contador++));
+            }
         }
+    }
+
+    private boolean correspondeBusca(Produto p, String termo) {
+        if (p == null) {
+            return false;
+        }
+        if (p.getNome() != null && p.getNome().toLowerCase().contains(termo)) {
+            return true;
+        }
+        if (p.getMarca() != null && p.getMarca().toLowerCase().contains(termo)) {
+            return true;
+        }
+        if (String.valueOf(p.getCodigo()).contains(termo)) {
+            return true;
+        }
+        if (p.getDescricao() != null && p.getDescricao().toLowerCase().contains(termo)) {
+            return true;
+        }
+        return false;
     }
 
     private Lista<Produto> getSelectedData() {
