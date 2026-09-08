@@ -56,3 +56,7 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 $RECYCLE.BIN/
+
+# Dados locais de persistência da aplicação
+data/
+serialized_objects/
