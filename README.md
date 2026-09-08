@@ -124,7 +124,7 @@ Se você deseja apenas utilizar o sistema sem precisar compilar o código-fonte:
 
 1. Acesse a página de **[Releases Oficiais](https://github.com/JGustavoCN/pharmastation/releases)** do repositório.
 2. Baixe o pacote correspondente:
-   * **Windows:** Baixe `pharmastation-windows-x64.zip`, descompacte em qualquer pasta e dê um duplo clique em **`PharmaStation.bat`**.
+   * **Windows (.exe nativo com ícone oficial):** Baixe **`PharmaStation.exe`** (ou o pacote portátil `pharmastation-windows-x64.zip`) e dê um duplo clique para abrir diretamente!
    * **Universal (Linux / macOS / Windows):** Baixe **`pharmastation.jar`** e execute com duplo clique ou via terminal:
      ```bash
      java -jar pharmastation.jar
@@ -135,7 +135,7 @@ Se você deseja apenas utilizar o sistema sem precisar compilar o código-fonte:
 
 ### ⚡ Execução Rápida para Desenvolvedores (1 Clique)
 
-* **Windows:** Dê um duplo clique no arquivo **[`iniciar.bat`](iniciar.bat)** ou **[`PharmaStation.bat`](PharmaStation.bat)**.
+* **Windows:** Dê um duplo clique no arquivo **[`iniciar.bat`](iniciar.bat)**.
 * **Linux / macOS:** Execute no terminal:
   ```bash
   chmod +x iniciar.sh

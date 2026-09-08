@@ -32,22 +32,29 @@ jobs:
         shell: powershell
         run: |
           New-Item -ItemType Directory -Force -Path "dist"
+          if (Test-Path "target/PharmaStation.exe") {
+              Copy-Item "target/PharmaStation.exe" "dist/PharmaStation.exe"
+          }
           Copy-Item "target/pharmastation-1.0-SNAPSHOT-launcher.jar" "dist/pharmastation.jar"
-          Copy-Item "PharmaStation.bat" "dist/PharmaStation.bat"
+          Copy-Item "iniciar.bat" "dist/iniciar.bat"
           Copy-Item "assets/logo.png" "dist/logo.png"
+          if (Test-Path "assets/logo.ico") {
+              Copy-Item "assets/logo.ico" "dist/logo.ico"
+          }
           
           $readme = @"
           ==================================================
               PHARMASTATION - GESTAO FARMACEUTICA (ED1)
           ==================================================
           
-          Como executar:
+          Como executar no Windows:
           1. Certifique-se de possuir o Java 21 ou superior instalado.
-          2. No Windows: Basta dar um duplo clique em 'PharmaStation.bat'.
-          3. Em qualquer sistema operacional:
-             java -jar pharmastation.jar
+          2. Duplo clique direto em 'PharmaStation.exe' (ou em 'iniciar.bat').
           
-          Credenciais Padrao:
+          Como executar em Linux / macOS:
+          java -jar pharmastation.jar
+          
+          Credenciais Padrao de Acesso:
           - Usuario: admin
           - Senha:   admin
           ==================================================
@@ -60,6 +67,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
+            dist/PharmaStation.exe
             dist/pharmastation.jar
             pharmastation-windows-x64.zip
           generate_release_notes: true

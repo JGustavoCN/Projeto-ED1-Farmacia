@@ -51,19 +51,24 @@ release: package
 	@echo ========================================================
 ifeq ($(OS),Windows_NT)
 	@if not exist "dist" mkdir "dist"
+	@if exist "target\PharmaStation.exe" copy /Y "target\PharmaStation.exe" "dist\PharmaStation.exe" >nul
 	@copy /Y "target\pharmastation-1.0-SNAPSHOT-launcher.jar" "dist\pharmastation.jar" >nul
-	@copy /Y "PharmaStation.bat" "dist\PharmaStation.bat" >nul
+	@copy /Y "iniciar.bat" "dist\iniciar.bat" >nul
 	@copy /Y "assets\logo.png" "dist\logo.png" >nul
+	@if exist "assets\logo.ico" copy /Y "assets\logo.ico" "dist\logo.ico" >nul
 else
 	@mkdir -p dist
+	@[ -f target/PharmaStation.exe ] && cp target/PharmaStation.exe dist/PharmaStation.exe || true
 	@cp target/pharmastation-1.0-SNAPSHOT-launcher.jar dist/pharmastation.jar
-	@cp PharmaStation.bat dist/PharmaStation.bat
+	@cp iniciar.bat dist/iniciar.bat
 	@cp assets/logo.png dist/logo.png
+	@[ -f assets/logo.ico ] && cp assets/logo.ico dist/logo.ico || true
 endif
-	@echo [OK] Pacote gerado com sucesso!
-	@echo   - dist/pharmastation.jar  (JAR executavel universal)
-	@echo   - dist/PharmaStation.bat  (Launcher Windows 1-clique)
-	@echo   - dist/logo.png           (Icone oficial)
+	@echo [OK] Pacote de distribuicao gerado com sucesso em dist/!
+	@echo   - dist/PharmaStation.exe  (Executavel nativo Windows com icone oficial)
+	@echo   - dist/pharmastation.jar  (JAR executavel universal multiplataforma)
+	@echo   - dist/iniciar.bat        (Launcher Windows de contingencia)
+	@echo   - dist/logo.ico / logo.png (Identidade visual oficial)
 	@echo ========================================================
 
 clean:
