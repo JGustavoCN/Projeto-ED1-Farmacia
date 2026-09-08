@@ -19,6 +19,7 @@ public class MainForm extends javax.swing.JFrame {
     MainController mainController;
 
     public MainForm() {
+        setTitle("PharmaStation - Gestão de Farmácia");
         initComponents();
         init();
     }

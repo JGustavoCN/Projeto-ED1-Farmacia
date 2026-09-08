@@ -39,6 +39,7 @@ public class LoginForm extends javax.swing.JFrame {
     private final double loginPanelSize = 60;
 
     public LoginForm() {
+        setTitle("PharmaStation - Login");
         initComponents();
         init();
     }

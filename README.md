@@ -112,39 +112,78 @@ br.edu.ifs.farmacia/
 
 ### Pré-requisitos
 
-- **Java JDK 21** instalado e configurado nas variáveis de ambiente.
+* **Java JDK 21** instalado.
+* **Git** instalado.
+*(Não é necessário instalar o Maven separadamente: o projeto já inclui o **Maven Wrapper** oficial e o repositório local de dependências).*
 
-- **Apache Maven 3.8+** instalado (ou utilize o suporte integrado da sua IDE).
-- **Git** instalado.
+---
 
-### Passo a Passo
+### ⚡ Execução Rápida (1 Clique)
+
+* **Windows:** Dê um duplo clique no arquivo **[`iniciar.bat`](iniciar.bat)**.
+* **Linux / macOS:** Execute no terminal:
+  ```bash
+  chmod +x iniciar.sh
+  ./iniciar.sh
+  ```
+> *O script compila automaticamente via Maven Wrapper caso ainda não tenha sido gerado e abre a interface gráfica na sua área de trabalho.*
+
+---
+
+### 🛠️ Comandos Automatizados (Makefile)
+
+Se você utiliza **Make** (Linux, macOS ou Windows via MinGW/Git Bash), use os comandos diretos:
+
+```bash
+make run       # Compila e inicia a aplicação desktop imediatamente
+make check     # Valida todo o projeto (compilação limpa, testes e empacotamento)
+make package   # Gera o executável final (Fat JAR) na pasta target/
+make clean     # Limpa arquivos temporários de build
+make help      # Exibe o menu com todos os comandos disponíveis
+```
+
+---
+
+### 📦 Execução Manual via Terminal (Maven Wrapper)
+
+Caso prefira executar manualmente pelo terminal:
 
 1. **Clone o repositório:**
-
    ```bash
-   git clone https://github.com/SEU_USUARIO/pharmastation.git
+   git clone https://github.com/JGustavoCN/pharmastation.git
    cd pharmastation
    ```
 
-2. **Compile o projeto com o Maven:**
+2. **Valide e compile o projeto:**
+   * **Windows (PowerShell / CMD):**
+     ```cmd
+     .\mvnw.cmd clean compile
+     ```
+   * **Linux / macOS:**
+     ```bash
+     ./mvnw clean compile
+     ```
 
-   ```bash
-   mvn clean package
-   ```
+3. **Inicie a aplicação:**
+   * **Windows:**
+     ```cmd
+     .\mvnw.cmd compile exec:java
+     ```
+   * **Linux / macOS:**
+     ```bash
+     ./mvnw compile exec:java
+     ```
 
-3. **Execute a aplicação:**
+*(Ou execute diretamente o Fat JAR gerado: `java -jar target/pharmastation-1.0-SNAPSHOT-launcher.jar`)*.
 
-   ```bash
-   mvn exec:java
-   ```
-
-   *(Ou execute diretamente o arquivo principal `br.edu.ifs.farmacia.view.LoginForm` pela sua IDE).*
+---
 
 ### 🔑 Credenciais de Acesso Padrão
 
-- **Usuário:** `admin`
+* **Usuário:** `admin`
+* **Senha:** `admin`
 
-- **Senha:** `admin`
+*(Você também pode alternar para o painel animado de cadastro e criar novos usuários administradores ou funcionários).*
 
 ---
 

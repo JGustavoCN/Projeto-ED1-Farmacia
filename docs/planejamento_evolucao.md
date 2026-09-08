@@ -75,16 +75,22 @@ graph TD
 
 ---
 
-## 🧹 FASE 3: Refatoração de Código e UX
-> **Objetivo:** Elevar a qualidade do código Java, melhorar o tratamento de erros e tornar o feedback visual mais moderno.
+---
+
+## 🧹 FASE 3: Refatoração de Código, UX e Dependências Modernas
+> **Objetivo:** Elevar a qualidade do código Java, melhorar o feedback visual e, com tudo validado e funcionando, atualizar dependências para suas versões mais recentes.
 
 ### O que entra nesta fase:
 1. **Substituição de `JOptionPane` por Toasts Visuais:**
-   * Trocar mensagens modais intrusivas (ex: "Produto salvo com sucesso") por notificações flutuantes usando a biblioteca `swing-toast-notifications` que já está no projeto.
+   * Trocar mensagens modais intrusivas (ex: "Produto salvo com sucesso") por notificações flutuantes usando a biblioteca `swing-toast-notifications`.
 2. **Tratamento de Exceções Customizadas:**
    * Padronizar o tratamento de erros de negócio (`ProdutoJaExisteException`, `ProdutoNaoEncontradoException`, `VendaNaoEncontradaException`).
 3. **Preservação do Rigor de ED1:**
    * Manter e valorizar as estruturas de dados implementadas à mão (`Lista`, `Fila`, `Pilha`, `No`), garantindo que a refatoração respeite o objetivo acadêmico da disciplina.
+4. **Atualização Segura de Dependências (Raven Modal-Dialog 2.6.2 do Maven Central):**
+   * **Pré-requisito Rígido:** Só executar este upgrade DEPOIS que todas as fases anteriores estiverem 100% funcionando e validadas com `make check`.
+   * Migrar de `raven.modaldialog:modal-dialog:1.1.0` (local) para `io.github.dj-raven:modal-dialog:2.6.2` (Maven Central oficial), adaptando as chamadas de API necessárias no `MainForm.java`.
+   * Validar novamente com `make check`.
 
 ---
 
@@ -102,11 +108,23 @@ graph TD
 > **Objetivo:** Transformar o PharmaStation em um projeto vitrine no GitHub.
 
 ### O que entra nesta fase:
-1. **README.md Premium:**
-   * Banner institucional do **PharmaStation** e logo.
+1. **Atualização Contínua do README.md:**
+   * O `README.md` deve ser mantido sempre atualizado a cada evolução, contendo os novos comandos (`make check`, `make run`, `make package`), requisitos de execução e instruções em 1 linha.
+2. **README.md Premium:**
+   * Banner institucional do **PharmaStation** e logo da pasta `assets/`.
    * Badges de tecnologias (Java 21, Swing, FlatLaf, Maven).
    * Guia "Quick Start" em 2 passos para qualquer pessoa rodar.
    * Demonstração das telas com GIFs ou capturas de alta qualidade.
    * Explicação da arquitetura (MVC + Repositórios + Estruturas de Dados próprias).
-2. **Guia de Contribuição e Arquitetura:**
+3. **Guia de Contribuição e Arquitetura:**
    * Detalhamento das regras da disciplina de ED1 e decisões de design.
+
+---
+
+## 🛡️ Protocolo de Validação Contínua (Regra de Ouro)
+> Sempre que uma tarefa for realizada ou antes de qualquer commit/conclusão de fase, **SEMPRE** execute:
+> ```bash
+> make check
+> ```
+> O comando garante a tripla validação: (1) compilação limpa do zero, (2) execução de testes, e (3) empacotamento integral do Fat JAR.
+

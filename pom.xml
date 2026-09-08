@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>br.edu.ifs</groupId>
-    <artifactId>Farmacia</artifactId>
+    <artifactId>pharmastation</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
@@ -11,6 +11,14 @@
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>br.edu.ifs.farmacia.view.LoginForm</exec.mainClass>
     </properties>
+    
+    <repositories>
+        <repository>
+            <id>in-project-repo</id>
+            <name>In-Project Local Repository</name>
+            <url>file://${project.basedir}/repo</url>
+        </repository>
+    </repositories>
     
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.miglayout/miglayout-swing -->
@@ -112,27 +120,21 @@
         
         
         
-        <!-- Dependências locais do Raven via scope system -->
+        <!-- Dependências do Raven via repositório in-project repo/ -->
         <dependency>
             <groupId>raven.popup</groupId>
             <artifactId>swing-glasspane-popup</artifactId>
             <version>1.5.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/library/swing-glasspane-popup-1.5.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>raven.toast</groupId>
             <artifactId>swing-toast-notifications</artifactId>
             <version>1.0.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/library/swing-toast-notifications-1.0.3.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>raven.modaldialog</groupId>
             <artifactId>modal-dialog</artifactId>
             <version>1.1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/library/modal-dialog-1.1.0.jar</systemPath>
         </dependency>
     </dependencies>
     

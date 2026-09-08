@@ -23,8 +23,10 @@ buildNumber.properties
 *.nar
 /target/*.jar
 
-# Preservar dependências essenciais locais em library/
-!/library/*.jar
+# Preservar dependências essenciais do repositório local em repo/
+!/repo/**
+_remote.repositories
+
 
 # NetBeans IDE
 **/nbproject/private/
