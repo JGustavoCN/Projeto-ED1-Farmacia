@@ -57,7 +57,10 @@ public class VendaRepository implements Serializable {
     
     private VendaRepository() {
         vendas = new Lista<>();
-        
+    }
+
+    public static VendaRepository createEmpty() {
+        return new VendaRepository();
     }
     
     public static VendaRepository getInstance() {

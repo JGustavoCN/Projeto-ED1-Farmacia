@@ -22,12 +22,22 @@ public class UsuarioRepository implements Serializable {
         this.usuarios = new Lista<>();
     }
 
+    // Cria uma nova instância limpa sem passar pelo DataManager (evita recursão)
+    public static UsuarioRepository createEmpty() {
+        return new UsuarioRepository();
+    }
+
     // Método para obter a instância única do Singleton
     public static UsuarioRepository getInstance() {
         if (instance == null) {
             instance = UsuarioDataManager.carregar();
         }
         return instance;
+    }
+
+    // Salva o estado atual dos usuários no disco
+    public void salvarTodos() {
+        UsuarioDataManager.salvar(this);
     }
 
     // Retorna todos os usuários

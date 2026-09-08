@@ -1,5 +1,6 @@
 package br.edu.ifs.farmacia.controller;
 
+import br.edu.ifs.farmacia.repository.UsuarioRepository;
 import br.edu.ifs.farmacia.view.MainForm;
 import javax.swing.JFrame;
 
@@ -28,6 +29,7 @@ public class MainController {
     }
     
     public void salvarDados(){
+        UsuarioRepository.getInstance().salvarTodos();
         produtoController.salvarDados();
         vendaController.salvarDados();
     }

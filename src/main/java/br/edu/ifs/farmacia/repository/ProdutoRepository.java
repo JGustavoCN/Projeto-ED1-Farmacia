@@ -91,6 +91,10 @@ public class ProdutoRepository implements Serializable {
         produtos.adicionar(produto);
     }
 
+    public static ProdutoRepository createEmpty() {
+        return new ProdutoRepository();
+    }
+
     public static ProdutoRepository getInstance() {
         if (instance == null) {
             instance = ProdutoDataManager.carregar();

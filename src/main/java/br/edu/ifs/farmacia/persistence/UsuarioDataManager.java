@@ -1,8 +1,8 @@
 package br.edu.ifs.farmacia.persistence;
 
+import br.edu.ifs.farmacia.model.login.Administrador;
 import br.edu.ifs.farmacia.repository.UsuarioRepository;
 
-import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,82 +13,85 @@ import java.io.ObjectOutputStream;
 
 /**
  * Classe para gerenciar a persistência de dados de usuários.
+ * Os dados operacionais residem na pasta ./data/ e os seeds iniciais em resources.
  */
 public class UsuarioDataManager {
 
-    private static final String RESOURCE_DIR = "src/main/resources/serialized_objects/";
+    private static final String DATA_DIR = "data";
     private static final String FILE_NAME = "usuarios.dat";
 
-    private static String getFilePath() {
-        File dir;
-        // Verifica se estamos executando na IDE (onde o diretório src/main/resources está disponível)
-        if (new File(RESOURCE_DIR).exists()) {
-            dir = new File(RESOURCE_DIR);
-        } else {
-            // Se não estiver na IDE, usa o diretório de execução atual e cria o diretório se não existir
-            dir = new File(System.getProperty("user.dir") + File.separator + "serialized_objects");
-            if (!dir.exists()) {
-                dir.mkdirs(); // Cria o diretório se não existir
-            }
+    private static File getDataFile() {
+        File dir = new File(DATA_DIR);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
-        return dir.getAbsolutePath() + File.separator + FILE_NAME;
+        return new File(dir, FILE_NAME);
     }
 
     /**
-     * Salva o repositório de usuários no arquivo especificado.
+     * Salva o repositório de usuários no arquivo especificado em ./data/.
      *
      * @param usuarioRepository O repositório de usuários a ser salvo.
      */
     public static void salvar(UsuarioRepository usuarioRepository) {
-        String filePath = getFilePath();
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+        if (usuarioRepository == null) {
+            return;
+        }
+        File file = getDataFile();
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(usuarioRepository);
-            JOptionPane.showMessageDialog(null, "Usuários salvos com sucesso!");
         } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao salvar usuários: " + e.getMessage(),
-                    "Erro de Salvamento", JOptionPane.ERROR_MESSAGE);
+            System.err.println("Erro ao salvar usuários em " + file.getAbsolutePath() + ": " + e.getMessage());
         }
     }
 
     /**
-     * Carrega o repositório de usuários a partir do arquivo especificado.
+     * Carrega o repositório de usuários.
+     * Primeiro tenta ler de ./data/usuarios.dat. Caso não exista, carrega o seed
+     * inicial de fábrica de resources e salva em ./data/. Se falhar, instancia repositório limpo.
      *
-     * @return O repositório de usuários carregado, ou um novo repositório se
-     * houver erro.
+     * @return O repositório de usuários carregado ou novo repositório limpo.
      */
     public static UsuarioRepository carregar() {
-        String filePath = getFilePath();
-        File file = new File(filePath);
-        if (file.exists()) {
+        File file = getDataFile();
+
+        // 1. Tenta carregar do arquivo de dados operacional em ./data/
+        if (file.exists() && file.length() > 0) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                 UsuarioRepository loadedRepository = (UsuarioRepository) ois.readObject();
-                br.edu.ifs.farmacia.model.login.Administrador adm = new br.edu.ifs.farmacia.model.login.Administrador("admin", "admin");
-                if (!loadedRepository.buscarTodos().contem(adm)) {
-                    loadedRepository.adicionar(adm);
-                }
+                garantirAdmin(loadedRepository);
                 return loadedRepository;
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Erro ao carregar usuários: " + e.getMessage(),
-                        "Erro de Carregamento", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            try (InputStream inputStream = UsuarioDataManager.class.getClassLoader().getResourceAsStream("serialized_objects/" + FILE_NAME)) {
-                if (inputStream != null) {
-                    try (ObjectInputStream ois = new ObjectInputStream(inputStream)) {
-                        return (UsuarioRepository) ois.readObject();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Arquivo de usuários não encontrado.",
-                            "Arquivo Não Encontrado", JOptionPane.INFORMATION_MESSAGE);
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Erro ao carregar usuários do JAR: " + e.getMessage(),
-                        "Erro de Carregamento do JAR", JOptionPane.ERROR_MESSAGE);
+                System.err.println("Erro ao ler usuários de " + file.getAbsolutePath() + ": " + e.getMessage());
             }
         }
-        return UsuarioRepository.getInstance(); // Retorna um novo repositório se houver erro
+
+        // 2. Se não existir em ./data/, carrega a partir do seed de fábrica em resources
+        try (InputStream inputStream = UsuarioDataManager.class.getClassLoader().getResourceAsStream("serialized_objects/" + FILE_NAME)) {
+            if (inputStream != null) {
+                try (ObjectInputStream ois = new ObjectInputStream(inputStream)) {
+                    UsuarioRepository seedRepository = (UsuarioRepository) ois.readObject();
+                    garantirAdmin(seedRepository);
+                    salvar(seedRepository); // Persiste a cópia inicial em ./data/
+                    return seedRepository;
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Erro ao carregar seed de fábrica de usuários: " + e.getMessage());
+        }
+
+        // 3. Fallback seguro sem recursão
+        UsuarioRepository fallback = UsuarioRepository.createEmpty();
+        garantirAdmin(fallback);
+        return fallback;
+    }
+
+    private static void garantirAdmin(UsuarioRepository repository) {
+        if (repository != null) {
+            Administrador adm = new Administrador("admin", "admin");
+            if (!repository.buscarTodos().contem(adm)) {
+                repository.adicionar(adm);
+            }
+        }
     }
 }
