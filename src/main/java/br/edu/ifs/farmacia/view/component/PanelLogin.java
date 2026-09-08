@@ -1,5 +1,6 @@
 package br.edu.ifs.farmacia.view.component;
 
+
 import br.edu.ifs.farmacia.view.swing.Button;
 import br.edu.ifs.farmacia.view.swing.MyTextField;
 import br.edu.ifs.farmacia.view.swing.MyPasswordField;
@@ -51,7 +52,7 @@ public class PanelLogin extends javax.swing.JLayeredPane {
         // Titulo institucional
         JLabel tituloLabel = new JLabel("PharmaStation");
         tituloLabel.setFont(new Font("sansserif", Font.BOLD, 28));
-        tituloLabel.setForeground(new Color(7, 164, 121));
+        tituloLabel.setForeground(new Color(11, 148, 158));
         informacaoPanel.add(tituloLabel, "cell 0 1, align center");
 
         JLabel subtituloLabel = new JLabel("Sistema de Gestão Farmacêutica");
@@ -89,7 +90,7 @@ public class PanelLogin extends javax.swing.JLayeredPane {
         // Titulo e subtitulo modernos
         JLabel label = new JLabel("PharmaStation");
         label.setFont(new Font("sansserif", Font.BOLD, 26));
-        label.setForeground(new Color(7, 164, 121));
+        label.setForeground(new Color(11, 148, 158));
         loginPanel.add(label);
 
         JLabel subLabel = new JLabel("Acesse sua conta para continuar");
@@ -115,7 +116,7 @@ public class PanelLogin extends javax.swing.JLayeredPane {
         loginPanel.add(cmdForget);
 
         Button cmd = new Button();
-        cmd.setBackground(new Color(7, 164, 121));
+        cmd.setBackground(new Color(11, 148, 158));
         cmd.setForeground(new Color(250, 250, 250));
         cmd.setFont(new Font("sansserif", Font.BOLD, 14));
         cmd.setText("Entrar");

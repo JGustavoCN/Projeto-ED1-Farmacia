@@ -36,6 +36,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import br.edu.ifs.farmacia.util.ImageLoader;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import raven.modal.ModalDialog;
@@ -122,6 +128,7 @@ public class PanelProdutos extends javax.swing.JPanel {
         lbTitle.setIcon(ImageLoader.loadImage("logo.png", 32, 32));
         lbTitle.setText(" PharmaStation • Controle de Estoque");
         lbTitle.setIconTextGap(10);
+        lbTitle.setForeground(new Color(11, 148, 158));
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +5;");
 
@@ -153,8 +160,94 @@ public class PanelProdutos extends javax.swing.JPanel {
             }
         });
 
+        // Estilizacao dos botoes de acao com identidade visual e pesos semanticos
+        cmdNew.setText("Novo");
+        cmdNew.putClientProperty(FlatClientProperties.STYLE, ""
+                + "arc:15;"
+                + "background:#0B949E;"
+                + "foreground:#FFFFFF;"
+                + "font:bold;"
+                + "margin:5,15,5,15;");
+
+        cmdVender.setText("Vender");
+        cmdVender.putClientProperty(FlatClientProperties.STYLE, ""
+                + "arc:15;"
+                + "background:#107C41;"
+                + "foreground:#FFFFFF;"
+                + "font:bold;"
+                + "margin:5,15,5,15;");
+
+        cmdDelete.setText("Excluir");
+        cmdDelete.putClientProperty(FlatClientProperties.STYLE, ""
+                + "arc:15;"
+                + "hoverBackground:#D9534F25;"
+                + "margin:5,15,5,15;");
+        cmdDelete.addActionListener((ActionEvent evt) -> {
+            Lista<Produto> selecionados = getSelectedData();
+            if (selecionados.estaVazia()) {
+                Toast.show(this, Toast.Type.WARNING, "Por favor selecione pelo menos um produto para excluir");
+                return;
+            }
+            String mensagem = selecionados.tamanho() == 1
+                    ? "Deseja realmente excluir o produto '" + selecionados.pegar(0).getNome() + "'?"
+                    : "Deseja realmente excluir os " + selecionados.tamanho() + " produtos selecionados?";
+
+            SimpleModalBorder.Option[] options = new SimpleModalBorder.Option[]{
+                new SimpleModalBorder.Option("Cancelar", SimpleModalBorder.CANCEL_OPTION),
+                new SimpleModalBorder.Option("Excluir", SimpleModalBorder.OK_OPTION)
+            };
+
+            javax.swing.JLabel lblMsg = new javax.swing.JLabel(mensagem);
+            lblMsg.setBorder(new javax.swing.border.EmptyBorder(10, 10, 10, 10));
+            ModalDialog.showModal(this, new SimpleModalBorder(lblMsg, "Confirmar Exclusão", options, (mc, i) -> {
+                if (i == SimpleModalBorder.OK_OPTION) {
+                    int removidos = 0;
+                    for (int j = 0; j < selecionados.tamanho(); j++) {
+                        try {
+                            produtoController.remover(selecionados.pegar(j));
+                            removidos++;
+                        } catch (ProdutoNaoEncontradoException ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }
+                    Toast.show(this, Toast.Type.SUCCESS, removidos + " produto(s) excluído(s) com sucesso");
+                    loadData();
+                }
+            }));
+        });
+
+        cmdEdit.putClientProperty(FlatClientProperties.STYLE, "arc:15; margin:5,15,5,15;");
+        cmdRelatorioEstoque.putClientProperty(FlatClientProperties.STYLE, "arc:15; margin:5,15,5,15;");
+        cmdRelatorioVendas.putClientProperty(FlatClientProperties.STYLE, "arc:15; margin:5,15,5,15;");
+
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
         table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table));
+
+        // Renderizador com alerta visual para produtos com Estoque Baixo (<= 5 unidades)
+        table.getColumnModel().getColumn(6).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable jtable, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(jtable, value, isSelected, hasFocus, row, column);
+                setHorizontalAlignment(SwingConstants.CENTER);
+                if (value instanceof Number) {
+                    int qtd = ((Number) value).intValue();
+                    if (qtd <= 5) {
+                        setFont(getFont().deriveFont(Font.BOLD));
+                        if (!isSelected) {
+                            setForeground(new Color(217, 83, 79));
+                            setToolTipText("Atenção: Estoque Baixo (" + qtd + " unidade(s))! Necessária reposição.");
+                        }
+                    } else {
+                        if (!isSelected) {
+                            setForeground(jtable.getForeground());
+                            setToolTipText(null);
+                        }
+                    }
+                }
+                return this;
+            }
+        });
+
         loadData();
     }
 
@@ -557,7 +650,7 @@ public class PanelProdutos extends javax.swing.JPanel {
 
     private void cmdRelatorioVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRelatorioVendasActionPerformed
         try {
-            NumberFormat nf = new DecimalFormat("$ #,##0.##");
+            NumberFormat nf = new DecimalFormat("R$ #,##0.00");
             List<FieldReportVendas> fields = new ArrayList<>();
             Lista<Venda> vendas = vendaController.lista();
             for (int i = 0; i < vendas.tamanho(); i++) {
@@ -589,7 +682,7 @@ public class PanelProdutos extends javax.swing.JPanel {
 
     private void cmdRelatorioEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRelatorioEstoqueActionPerformed
         try {
-            NumberFormat nf = new DecimalFormat("$ #,##0.##");
+            NumberFormat nf = new DecimalFormat("R$ #,##0.00");
             List<FieldReportEstoque> fields = new ArrayList<>();
             Lista<Produto> produtos = produtoController.lista();
             for (int i = 0; i < produtos.tamanho(); i++) {

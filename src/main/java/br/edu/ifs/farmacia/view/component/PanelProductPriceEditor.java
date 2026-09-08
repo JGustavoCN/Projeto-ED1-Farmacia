@@ -54,8 +54,16 @@ public final class PanelProductPriceEditor extends javax.swing.JPanel {
         
     }
     
-    public double getValor(){
-        return txtValorModificado.getText() != null?Double.parseDouble(txtValorModificado.getText().trim().replace(",", ".")):0;
+    public double getValor() {
+        try {
+            String txt = txtValorModificado.getText();
+            if (txt != null && !txt.trim().isEmpty()) {
+                return Double.parseDouble(txt.trim().replace(",", "."));
+            }
+        } catch (NumberFormatException e) {
+            // Retorna 0 em caso de valor nao preenchido ou invalido
+        }
+        return 0;
     }
     
     public void loadData(Lista<Produto> lista){

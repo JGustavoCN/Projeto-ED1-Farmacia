@@ -46,7 +46,7 @@ public class ProdutoUtil {
     }
 
     public static Object[] produtoToTableRow(Produto produto, int rowNum) {
-        NumberFormat nf = new DecimalFormat("$ #,##0.##");
+        NumberFormat nf = new DecimalFormat("R$ #,##0.00");
         Object[] produtoToTableRow = new Object[]{
             false,
             rowNum,
@@ -62,7 +62,7 @@ public class ProdutoUtil {
     }
 
     public static Object[] produtoToTableRowPriceEditor(Produto produto, int rowNum) {
-        NumberFormat nf = new DecimalFormat("$ #,##0.##");
+        NumberFormat nf = new DecimalFormat("R$ #,##0.00");
         Object[] produtoToTableRow = new Object[]{
             rowNum,
             produto.getCodigo(),

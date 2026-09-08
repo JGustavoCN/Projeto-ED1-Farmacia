@@ -44,6 +44,9 @@ public class ProdutoController {
 
     public void atualizarPrecoDeTodos(Lista<Produto> lista, double valor) throws ProdutoNaoEncontradoException {
         produtoRepository.atualizarPrecoDeTodos(lista, valor);
+    }
 
+    public boolean remover(Produto produto) throws ProdutoNaoEncontradoException {
+        return produtoRepository.remover(produto);
     }
 }

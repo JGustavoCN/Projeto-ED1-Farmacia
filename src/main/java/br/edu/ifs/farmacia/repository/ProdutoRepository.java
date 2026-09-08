@@ -36,6 +36,15 @@ public class ProdutoRepository implements Serializable {
         return produtos.adicionar(produto);
     }
 
+    public boolean remover(Produto produto) throws ProdutoNaoEncontradoException {
+        if (!produtos.contem(produto)) {
+            throw new ProdutoNaoEncontradoException("Produto não encontrado para remoção.");
+        }
+        produtos.remover(produto);
+        salvarTodos();
+        return true;
+    }
+
     public Lista<Produto> buscarTodos() {
         return produtos;
     }

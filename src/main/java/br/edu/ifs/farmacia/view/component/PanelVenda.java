@@ -2,12 +2,14 @@ package br.edu.ifs.farmacia.view.component;
 
 import br.edu.ifs.farmacia.model.Venda;
 import br.edu.ifs.farmacia.util.EventCellInputChange;
+import br.edu.ifs.farmacia.util.ImageLoader;
 import br.edu.ifs.farmacia.util.Lista;
 import br.edu.ifs.farmacia.util.VendaUtil;
 import br.edu.ifs.farmacia.view.swing.QtyCellEditor;
 import br.edu.ifs.farmacia.view.swing.table.TableHeaderAlignment;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
 import javax.swing.JTable;
@@ -71,10 +73,14 @@ public final class PanelVenda extends javax.swing.JPanel {
                 + "thumbInsets:3,3,3,3;"
                 + "background:$Table.background;");
 
+        lbTitle.setIcon(ImageLoader.loadImage("logo.png", 32, 32));
+        lbTitle.setText(" PharmaStation • Ponto de Venda");
+        lbTitle.setIconTextGap(10);
+        lbTitle.setForeground(new Color(11, 148, 158));
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +5;");
 
-        txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
+        txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Buscar item na venda por nome ou código...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("imagens/search.svg"));
         txtSearch.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:15;"
@@ -83,17 +89,35 @@ public final class PanelVenda extends javax.swing.JPanel {
                 + "innerFocusWidth:0;"
                 + "margin:5,20,5,20;"
                 + "background:$Panel.background");
+
+        // Busca reativa em tempo real no PDV ao digitar
+        txtSearch.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                loadData();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                loadData();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                loadData();
+            }
+        });
+
+        lbTotal.setForeground(new Color(11, 148, 158));
+        lbTotal.putClientProperty(FlatClientProperties.STYLE, "font:bold +6;");
         
         table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table));
         loadData();
-        
-    
     }
 
     public Lista<Venda> getVendas() {
         return vendas;
     }
-    
     
     private void sumAmount() {
         double total = 0;
@@ -105,30 +129,46 @@ public final class PanelVenda extends javax.swing.JPanel {
         lbTotal.setText(df.format(total));
     }
     
-    private void loadData(){
-    
+    private void loadData() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         if (table.isEditing()) {
             table.getCellEditor().stopCellEditing();
         }
         model.setRowCount(0);
         Lista<Venda> vendasOrdenados = new Lista<>();
-        // Adiciona todos os vendas na vendas de vendasOrdenados
         for (int i = 0; i < vendas.tamanho(); i++) {
             vendasOrdenados.adicionarUltimo(vendas.pegar(i));
         }
 
-        // Ordena a vendas de vendas por nome
         vendasOrdenados.ordenar((Venda p1, Venda p2) -> p1.getProduto().getNome().compareToIgnoreCase(p2.getProduto().getNome()));
         
-        Lista<Venda> vendas1 = checkOrdenarPorNome.isSelected() ? 
-                vendasOrdenados: 
-                vendas;
+        Lista<Venda> base = checkOrdenarPorNome.isSelected() ? vendasOrdenados : vendas;
+        String termo = (txtSearch != null && txtSearch.getText() != null) ? txtSearch.getText().trim().toLowerCase() : "";
 
-        for (int i = 0; i < vendas1.tamanho(); i++) {
-            model.addRow(VendaUtil.vendaToTableRow(vendas1.pegar(i), i + 1));
+        int contador = 1;
+        for (int i = 0; i < base.tamanho(); i++) {
+            Venda v = base.pegar(i);
+            if (termo.isEmpty() || correspondeBuscaVenda(v, termo)) {
+                model.addRow(VendaUtil.vendaToTableRow(v, contador++));
+            }
         }
         sumAmount();
+    }
+
+    private boolean correspondeBuscaVenda(Venda v, String termo) {
+        if (v == null || v.getProduto() == null) {
+            return false;
+        }
+        if (v.getProduto().getNome() != null && v.getProduto().getNome().toLowerCase().contains(termo)) {
+            return true;
+        }
+        if (v.getProduto().getMarca() != null && v.getProduto().getMarca().toLowerCase().contains(termo)) {
+            return true;
+        }
+        if (String.valueOf(v.getProduto().getCodigo()).contains(termo)) {
+            return true;
+        }
+        return false;
     }
     
     /**

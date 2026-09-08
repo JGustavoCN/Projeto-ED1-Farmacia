@@ -23,7 +23,7 @@ public class VendaUtil {
     }
     
     public static Object[] vendaToTableRow(Venda venda, int rowNum){
-        NumberFormat nf = new DecimalFormat("$ #,##0.##");
+        NumberFormat nf = new DecimalFormat("R$ #,##0.00");
         Object[] vendaToTableRow = new Object[]{
             venda,
             rowNum, 
