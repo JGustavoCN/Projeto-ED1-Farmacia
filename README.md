@@ -8,6 +8,8 @@
 
   [![Java](https://img.shields.io/badge/Java-21-orange.svg?logo=openjdk&logoColor=white)](https://openjdk.org/)
   [![Maven](https://img.shields.io/badge/Maven-3.8+-C71A36.svg?logo=apache-maven&logoColor=white)](https://maven.apache.org/)
+  [![CI](https://github.com/JGustavoCN/pharmastation/actions/workflows/ci.yml/badge.svg)](https://github.com/JGustavoCN/pharmastation/actions/workflows/ci.yml)
+  [![Release](https://img.shields.io/github/v/release/JGustavoCN/pharmastation?color=brightgreen&label=Release&logo=github)](https://github.com/JGustavoCN/pharmastation/releases)
   [![UI](https://img.shields.io/badge/UI-Java%20Swing%20%7C%20FlatLaf-blue.svg)](https://www.formdev.com/flatlaf/)
   [![Reports](https://img.shields.io/badge/Reports-JasperReports%207.0-red.svg)](https://community.jaspersoft.com/)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -116,29 +118,43 @@ br.edu.ifs.farmacia/
 * **Git** instalado.
 *(Não é necessário instalar o Maven separadamente: o projeto já inclui o **Maven Wrapper** oficial e o repositório local de dependências).*
 
+### 📥 Download das Versões Prontas (Releases)
+
+Se você deseja apenas utilizar o sistema sem precisar compilar o código-fonte:
+
+1. Acesse a página de **[Releases Oficiais](https://github.com/JGustavoCN/pharmastation/releases)** do repositório.
+2. Baixe o pacote correspondente:
+   * **Windows:** Baixe `pharmastation-windows-x64.zip`, descompacte em qualquer pasta e dê um duplo clique em **`PharmaStation.bat`**.
+   * **Universal (Linux / macOS / Windows):** Baixe **`pharmastation.jar`** e execute com duplo clique ou via terminal:
+     ```bash
+     java -jar pharmastation.jar
+     ```
+*(Requer apenas o **Java 21** instalado no computador).*
+
 ---
 
-### ⚡ Execução Rápida (1 Clique)
+### ⚡ Execução Rápida para Desenvolvedores (1 Clique)
 
-* **Windows:** Dê um duplo clique no arquivo **[`iniciar.bat`](iniciar.bat)**.
+* **Windows:** Dê um duplo clique no arquivo **[`iniciar.bat`](iniciar.bat)** ou **[`PharmaStation.bat`](PharmaStation.bat)**.
 * **Linux / macOS:** Execute no terminal:
   ```bash
   chmod +x iniciar.sh
   ./iniciar.sh
   ```
-> *O script compila automaticamente via Maven Wrapper caso ainda não tenha sido gerado e abre a interface gráfica na sua área de trabalho.*
+> *O script compila automaticamente via Maven Wrapper caso o JAR ainda não tenha sido gerado e abre a interface gráfica na sua área de trabalho.*
 
 ---
 
 ### 🛠️ Comandos Automatizados (Makefile)
 
-Se você utiliza **Make** (Linux, macOS ou Windows via MinGW/Git Bash), use os comandos diretos:
+Se você utiliza **Make** (Linux, macOS ou Windows via MinGW/Git Bash), utilize os comandos diretos:
 
 ```bash
 make run       # Compila e inicia a aplicação desktop imediatamente
 make check     # Valida todo o projeto (compilação limpa, testes e empacotamento)
-make package   # Gera o executável final (Fat JAR) na pasta target/
-make clean     # Limpa arquivos temporários de build
+make package   # Gera o executável Fat JAR na pasta target/
+make release   # Prepara o pacote de distribuição final pronto na pasta dist/
+make clean     # Limpa arquivos temporários de build (target/ e dist/)
 make help      # Exibe o menu com todos os comandos disponíveis
 ```
 

@@ -1,0 +1,43 @@
+name: CI • PharmaStation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Build, Lint & Test (Java 21)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21 (LTS)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Permissão de Execução para o Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: [1/3] Compilação Limpa & Linter (-Xlint:all)
+        run: ./mvnw clean compile
+
+      - name: [2/3] Bateria de Testes Automatizados
+        run: ./mvnw test
+
+      - name: [3/3] Empacotamento do Fat JAR Executável
+        run: ./mvnw package -DskipTests
+
+      - name: Upload do Executável para Validação do Artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: pharmastation-fatjar
+          path: target/pharmastation-1.0-SNAPSHOT-launcher.jar
+          retention-days: 7

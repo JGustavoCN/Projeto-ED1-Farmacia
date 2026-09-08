@@ -1,0 +1,67 @@
+name: Release • PharmaStation Desktop
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Publicar Release (Universal JAR & Windows Portable)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21 (LTS)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Compilar e Empacotar Fat JAR
+        run: .\mvnw.cmd clean package -DskipTests
+
+      - name: Preparar Pacote de Distribuição
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path "dist"
+          Copy-Item "target/pharmastation-1.0-SNAPSHOT-launcher.jar" "dist/pharmastation.jar"
+          Copy-Item "PharmaStation.bat" "dist/PharmaStation.bat"
+          Copy-Item "assets/logo.png" "dist/logo.png"
+          
+          $readme = @"
+          ==================================================
+              PHARMASTATION - GESTAO FARMACEUTICA (ED1)
+          ==================================================
+          
+          Como executar:
+          1. Certifique-se de possuir o Java 21 ou superior instalado.
+          2. No Windows: Basta dar um duplo clique em 'PharmaStation.bat'.
+          3. Em qualquer sistema operacional:
+             java -jar pharmastation.jar
+          
+          Credenciais Padrao:
+          - Usuario: admin
+          - Senha:   admin
+          ==================================================
+          "@
+          Set-Content -Path "dist/README.txt" -Value $readme -Encoding utf8
+          
+          Compress-Archive -Path "dist/*" -DestinationPath "pharmastation-windows-x64.zip" -Force
+
+      - name: Publicar Release no GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/pharmastation.jar
+            pharmastation-windows-x64.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false

@@ -33,8 +33,20 @@ public class LoginForm extends javax.swing.JFrame {
 
     public LoginForm() {
         setTitle("PharmaStation - Login");
+        carregarIcone();
         initComponents();
         init();
+    }
+
+    private void carregarIcone() {
+        try {
+            java.net.URL logoUrl = getClass().getResource("/imagens/logo.png");
+            if (logoUrl != null) {
+                setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(logoUrl));
+            }
+        } catch (Exception e) {
+            // Log ou fallback silencioso
+        }
     }
 
     public PanelLogin getLoginPanel() {

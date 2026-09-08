@@ -36,6 +36,7 @@ build/
 nbbuild/
 dist/
 nbdist/
+*.zip
 .nb-gradle/
 
 # IntelliJ IDEA

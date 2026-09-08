@@ -20,8 +20,20 @@ public class MainForm extends javax.swing.JFrame {
 
     public MainForm() {
         setTitle("PharmaStation - Gestão de Farmácia");
+        carregarIcone();
         initComponents();
         init();
+    }
+
+    private void carregarIcone() {
+        try {
+            java.net.URL logoUrl = getClass().getResource("/imagens/logo.png");
+            if (logoUrl != null) {
+                setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage(logoUrl));
+            }
+        } catch (Exception e) {
+            // Log ou fallback silencioso
+        }
     }
 
     private static void modificarJFrame(JFrame frame) {

@@ -35,8 +35,9 @@ O pipeline do `make check` executa sequencialmente:
 | `make check` | Validação completa de integridade (clean, build, test, package) |
 | `make run` | Compila e inicia a aplicação desktop na área de trabalho |
 | `make build` | Compila as classes do projeto (`mvnw compile`) |
-| `make package` | Gera o executável final em `target/` |
-| `make clean` | Limpa a pasta `target/` e artefatos de compilação |
+| `make package` | Gera o executável final Fat JAR em `target/` |
+| `make release` | Prepara o pacote de distribuição pronto em `dist/` |
+| `make clean` | Limpa a pasta `target/`, `dist/` e artefatos de compilação |
 | `make help` | Exibe o menu com todos os comandos disponíveis |
 
 ---
@@ -66,5 +67,20 @@ O pipeline do `make check` executa sequencialmente:
 
 ---
 
-## 🌐 7. Idioma e Comunicação
+## 🚀 7. Esteira de CI/CD & Releases (GitHub Actions)
+1. **Pipeline de CI (`.github/workflows/ci.yml`):**
+   * Disparado em todo `push` e `pull_request` para a branch `main`.
+   * Valida compilação limpa com linter rigoroso (`-Xlint:all`), bateria de testes e geração do Fat JAR.
+2. **Pipeline de Releases (`.github/workflows/release.yml`):**
+   * Disparado ao criar e empurrar uma tag semântica (ex: `git tag v1.0.0; git push origin v1.0.0`) ou via `workflow_dispatch`.
+   * Publica automaticamente o executável universal `pharmastation.jar` e o pacote portátil Windows `pharmastation-windows-x64.zip` na aba **Releases** do GitHub.
+
+---
+
+## 📐 8. Padronização Universal de Ambiente (`.editorconfig`)
+* O arquivo `.editorconfig` na raiz do repositório garante consistência de indentação (4 espaços para Java e XML, tabs para Makefile), finais de linha (`LF`) e codificação UTF-8 sem BOM em qualquer editor (VS Code, NetBeans, IntelliJ, etc.).
+
+---
+
+## 🌐 9. Idioma e Comunicação
 * Todo diálogo, explicação de código, sugestão ou relatório com o usuário deve ser feito **única e exclusivamente em Português do Brasil (pt-BR)**.
