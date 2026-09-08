@@ -7,8 +7,7 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>br.edu.ifs.farmacia.view.LoginForm</exec.mainClass>
     </properties>
     
@@ -140,7 +139,19 @@
     
     <build>
         <plugins>
-           
+            <!-- Plugin do Compilador Java com Exibição Detalhada de Avisos/Lints -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>21</release>
+                    <showWarnings>true</showWarnings>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
             
             <!-- Plugin Maven Assembly -->
         <plugin>

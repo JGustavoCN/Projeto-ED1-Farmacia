@@ -3,7 +3,6 @@ package br.edu.ifs.farmacia.repository;
 import br.edu.ifs.farmacia.model.Venda;
 import br.edu.ifs.farmacia.persistence.VendaDataManager;
 import br.edu.ifs.farmacia.util.Lista;
-import br.edu.ifs.farmacia.util.ProdutoNaoPodeSerVendidoException;
 import br.edu.ifs.farmacia.util.VendaJaExisteException;
 import br.edu.ifs.farmacia.util.VendaNaoEncontradoException;
 import java.io.Serializable;

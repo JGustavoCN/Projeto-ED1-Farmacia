@@ -57,7 +57,7 @@ public class Lista<E> implements Serializable {
     }
 
     public boolean adicionarUltimo(E elemento) {
-        No<E> no = new No(elemento);
+        No<E> no = new No<>(elemento);
         if (estaVazia()) {
             primeiro = no;
         } else {
@@ -69,7 +69,7 @@ public class Lista<E> implements Serializable {
     }
 
     public boolean adicionarPrimeiro(E elemento) {
-        primeiro = new No(elemento, primeiro);
+        primeiro = new No<>(elemento, primeiro);
         if (estaVazia()) {
             ultimo = primeiro;
         }
@@ -88,7 +88,7 @@ public class Lista<E> implements Serializable {
 
         No<E> anterior = pegarNo(indice - 1);
         No<E> proximo = anterior.getProximo();
-        anterior.setProximo(new No(elemento, proximo));
+        anterior.setProximo(new No<>(elemento, proximo));
         tamanho++;
         return true;
     }
@@ -182,7 +182,7 @@ public class Lista<E> implements Serializable {
     }
 
     public int indiceDe(E elemento) {
-        No atual = primeiro;
+        No<E> atual = primeiro;
         int indice = 0;
         if (elemento == null) {
             for (; atual != null; atual = atual.getProximo()) {
@@ -203,7 +203,7 @@ public class Lista<E> implements Serializable {
     }
 
     public void limpar() {
-        for (No atual = primeiro; atual != null; atual = atual.recortar().getProximo()) {
+        for (No<E> atual = primeiro; atual != null; atual = atual.recortar().getProximo()) {
         }
         primeiro = ultimo = null;
         tamanho = 0;

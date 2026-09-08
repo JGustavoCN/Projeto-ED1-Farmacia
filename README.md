@@ -183,7 +183,7 @@ Caso prefira executar manualmente pelo terminal:
 * **Usuário:** `admin`
 * **Senha:** `admin`
 
-*(Você também pode alternar para o painel animado de cadastro e criar novos usuários administradores ou funcionários).*
+*(Você também pode alternar pelo botão "Saiba Mais" para visualizar o painel animado com as informações e contexto acadêmico do projeto).*
 
 ---
 

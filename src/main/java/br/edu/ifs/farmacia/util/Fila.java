@@ -1,9 +1,10 @@
 package br.edu.ifs.farmacia.util;
 
 /**
+ * Estrutura de dados Fila genérica (FIFO) implementada manualmente.
  *
  * @author José Gustavo
- * @param <E>
+ * @param <E> Tipo dos elementos armazenados na fila
  */
 public class Fila<E> {
 
@@ -15,7 +16,7 @@ public class Fila<E> {
     }
 
     public boolean enfileirar(E elemento) {
-        No<E> no = new No(elemento);
+        No<E> no = new No<>(elemento);
         if (estaVazia()) {
             primeiro = no;
         } else {
@@ -26,35 +27,29 @@ public class Fila<E> {
         return true;
     }
 
-    private void add(E elemento) {
-        // Forma sem saber o ultimo No
-        if (estaVazia()) {
-            primeiro = new No(elemento);
-        } else {
-            No<E> no = primeiro;
-            for (int i = 1; i < tamanho; i++) {
-                no = no.getProximo();
-            }
-            no.setProximo(new No(elemento));
-        }
-    }
-
     public E desenfileirar() {
-        if (estaVazia()) throw new VaziaException("Fila Vazia");
+        if (estaVazia()) {
+            throw new VaziaException("Fila Vazia");
+        }
         final No<E> no = primeiro.recortar();
         primeiro = no.getProximo();
         tamanho--;
-        if (estaVazia()) ultimo = null; 
+        if (estaVazia()) {
+            ultimo = null;
+        }
         return no.getElemento();
     }
 
     public E primeiro() {
-        if (estaVazia()) throw new VaziaException("Fila Vazia");
+        if (estaVazia()) {
+            throw new VaziaException("Fila Vazia");
+        }
         return primeiro.getElemento();
     }
 
     public void limpar() {
-        for (No atual = primeiro; atual != null; atual = atual.recortar().getProximo()){}
+        for (No<E> atual = primeiro; atual != null; atual = atual.recortar().getProximo()) {
+        }
         primeiro = null;
         ultimo = null;
         tamanho = 0;
@@ -70,7 +65,9 @@ public class Fila<E> {
 
     @Override
     public String toString() {
-        if (estaVazia() || primeiro == null) return "[]";
+        if (estaVazia() || primeiro == null) {
+            return "[]";
+        }
         
         StringBuilder sb = new StringBuilder();
         sb.append("[").append(primeiro.getElemento());

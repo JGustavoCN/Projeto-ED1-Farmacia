@@ -1,12 +1,12 @@
 package br.edu.ifs.farmacia.model.login;
 
-import java.io.Serializable;
-
 /**
+ * Níveis de acesso de usuário do sistema.
+ * Enums nativamente implementam Serializable.
  *
  * @author Aluno
  */
-public enum TipoUsuario implements Serializable {
+public enum TipoUsuario {
     
     FUNCIONARIO("Funcionário", "Acesso básico, permitido apenas a funcionalidades padrão."),
     ADMINISTRADOR("Administrador", "Acesso completo, com permissão para gerenciar usuários e configurar o sistema.");

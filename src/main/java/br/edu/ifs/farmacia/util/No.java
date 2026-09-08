@@ -25,7 +25,7 @@ public class No<E> implements Serializable {
     
     
     public No<E> recortar(){
-        No no = new No(elemento, proximo);
+        No<E> no = new No<>(elemento, proximo);
         this.setElemento(null);
         this.setProximo(null);
         return no;

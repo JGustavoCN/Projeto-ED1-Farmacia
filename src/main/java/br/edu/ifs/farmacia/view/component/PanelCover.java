@@ -58,7 +58,6 @@ public class PanelCover extends javax.swing.JPanel {
         add(button, "w 60%, h 40");
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

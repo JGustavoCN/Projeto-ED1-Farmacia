@@ -77,20 +77,41 @@ graph TD
 
 ---
 
-## 🧹 FASE 3: Refatoração de Código, UX e Dependências Modernas
-> **Objetivo:** Elevar a qualidade do código Java, melhorar o feedback visual e, com tudo validado e funcionando, atualizar dependências para suas versões mais recentes.
+## 🧹 FASE 3: Refatoração de Código, Qualidade Técnica & UX
+> **Objetivo:** Eliminar todos os warnings do compilador e linter, aperfeiçoar o Type Safety das estruturas de dados de ED1, remover código morto, modernizar o feedback visual e, com a base 100% limpa e validada, atualizar dependências para suas versões oficiais.
 
 ### O que entra nesta fase:
-1. **Substituição de `JOptionPane` por Toasts Visuais:**
-   * Trocar mensagens modais intrusivas (ex: "Produto salvo com sucesso") por notificações flutuantes usando a biblioteca `swing-toast-notifications`.
-2. **Tratamento de Exceções Customizadas:**
-   * Padronizar o tratamento de erros de negócio (`ProdutoJaExisteException`, `ProdutoNaoEncontradoException`, `VendaNaoEncontradaException`).
-3. **Preservação do Rigor de ED1:**
-   * Manter e valorizar as estruturas de dados implementadas à mão (`Lista`, `Fila`, `Pilha`, `No`), garantindo que a refatoração respeite o objetivo acadêmico da disciplina.
-4. **Atualização Segura de Dependências (Raven Modal-Dialog 2.6.2 do Maven Central):**
-   * **Pré-requisito Rígido:** Só executar este upgrade DEPOIS que todas as fases anteriores estiverem 100% funcionando e validadas com `make check`.
+
+1. **Saneamento de Warnings e Type Safety nas Estruturas de Dados (ED1):**
+   * **`No<E>`:** Parametrizar nós referenciados (`No<E> proximo`) e eliminar raw types nos construtores.
+   * **`Lista<E>`:** Parametrizar instâncias e variáveis locais (`No<E> atual`), eliminando conversões não checadas (`unchecked conversions`).
+   * **`Fila<E>`:** Corrigir instanciação genérica de nós (`new No<>(elemento)`), eliminar raw types e remover método morto `add(E)` que duplica `enfileirar(E)`.
+   * **`ButtonClickListener`:** Adicionar anotação `@SafeVarargs` para parâmetros varargs genéricos (`E... source`).
+   * **Objetivo:** Obter compilação limpa sem avisos em `mvnw clean compile -Xlint:unchecked`.
+
+2. **Eliminação de Redundâncias e Declarações Supérfluas:**
+   * **`Administrador` e `Funcionario`:** Remover `implements Serializable` explícito, pois já herdam `Serializable` de `Usuario`.
+   * **`TipoUsuario`:** Remover `implements Serializable` explícito, pois todo `enum` já estende nativamente `Enum<T>` (que implementa `Serializable`).
+
+3. **Eliminação de Imports Mortos e Código Não Utilizado (Dead Code):**
+   * Limpeza de imports descartados em `VendaRepository.java`, `PanelLogin.java`, `PanelProdutos.java` e `LoginForm.java`.
+   * Remoção de variáveis e campos de formulário órfãos (ex: `buttonGroup1` em `PanelVenda.java`).
+   * Limpeza de comentários residuais de `// TODO add your handling code here`.
+
+4. **Parametrização e Tipagem na Camada de Visão (UI):**
+   * Ajustar tipagem genérica em tabelas (`Class<?>[]` no `PanelProdutos.java`).
+   * Parametrizar listas na UI (`Lista<Venda> vendidos = new Lista<>()`).
+
+5. **Substituição de `JOptionPane` por Toasts Visuais:**
+   * Trocar diálogos modais intrusivos por notificações flutuantes fluidas com a biblioteca `swing-toast-notifications`.
+
+6. **Tratamento de Exceções Customizadas:**
+   * Padronizar o fluxo das exceções de negócio (`ProdutoJaExisteException`, `ProdutoNaoEncontradoException`, `VendaNaoEncontradaException`).
+
+7. **Atualização Segura de Dependências (Raven Modal-Dialog 2.6.2 do Maven Central):**
+   * **Pré-requisito Rígido:** Só executar este upgrade **DEPOIS** que toda a refatoração e limpeza dos itens 1 a 6 estiverem 100% concluídas e aprovadas com `make check`.
    * Migrar de `raven.modaldialog:modal-dialog:1.1.0` (local) para `io.github.dj-raven:modal-dialog:2.6.2` (Maven Central oficial), adaptando as chamadas de API necessárias no `MainForm.java`.
-   * Validar novamente com `make check`.
+   * Revalidar integralmente com `make check`.
 
 ---
 

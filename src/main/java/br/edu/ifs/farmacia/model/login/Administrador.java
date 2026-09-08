@@ -1,13 +1,14 @@
 package br.edu.ifs.farmacia.model.login;
 
-import java.io.Serializable;
-
 /**
+ * Entidade Administrador do sistema. Herda de Usuario (já serializável).
  *
  * @author Aluno
  */
-public class Administrador extends Usuario implements Serializable {
+public class Administrador extends Usuario {
+    
     private static final long serialVersionUID = 1L;
+
     public Administrador(String username, String password) {
         super(username, password);
     }
@@ -19,7 +20,6 @@ public class Administrador extends Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString()+" -> Restrição: " +this.getTipo()+ '}';
+        return super.toString() + " -> Restrição: " + this.getTipo() + '}';
     }
-    
 }
