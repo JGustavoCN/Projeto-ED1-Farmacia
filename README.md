@@ -49,18 +49,49 @@ Diferente de sistemas acadêmicos convencionais que utilizam apenas telas cinzas
 - **Integridade de Estoque:** Validação automática com bloqueio de vendas caso a quantidade solicitada exceda a disponível (`ProdutoNaoPodeSerVendidoException`).
 - **Cálculo Financeiro:** Atualização em tempo real de subtotais e margem de lucro por operação.
 
-### 📑 Emissão de Relatórios Gerenciais (JasperReports)
+### 👥 Gestão de Usuários & Níveis de Acesso (RBAC)
+
+- **Controle Baseado em Papéis:** Acesso exclusivo para o perfil de **Administrador**, com ocultação dinâmica da aba para outros níveis.
+- **Gestão de Operadores:** Cadastro, edição de perfil e remoção de usuários com validação de unicidade de nome e confirmação de senha.
+- **Segurança de Credenciais:** Criptografia de senhas com algoritmo de hash **SHA-256** e proteção contra autoexclusão do usuário conectado.
+
+### 📑 Emissão de Relatórios Gerenciais (JasperReports 7.0)
 
 - **Relatório de Posição de Estoque:** Demonstrativo completo com volume de produtos, custos totais, projeção de faturamento e lucro estimado.
 - **Relatório Analítico de Vendas:** Histórico consolidado de saídas com quantidades vendidas e total financeiro realizado.
-- Visualização e exportação nativa em **PDF**.
+- **Identidade Visual Premium:** Logotipo oficial em alta definição no cabeçalho e marca d'água translúcida suave de 8% no fundo da página.
+- **Exportação Nativa:** Pré-visualização rica com suporte a exportação direta para **PDF**.
 
 ### 🎨 Experiência Visual & Temas
 
-- **Dark / Light Mode:** Alternância suave entre temas escuros (`FlatMacDarkLaf`) e claros (`FlatIntelliJLaf`) com transição animada e *debounce*.
+- **Dark Mode Padrão:** O sistema inicia nativamente no tema escuro moderno (`FlatMacDarkLaf`), com suporte a alternância em tempo real para o tema claro (`FlatIntelliJLaf`).
 - **Tela de Login Deslizante:** Animação com `TimingFramework` dividindo o painel de boas-vindas e credenciais.
 - **Toasts & Modais:** Notificações flutuantes e janelas modais via `GlassPane` (Raven UI), sem travar a interface com diálogos modais antiquados.
 - **Botões com Efeito Ripple:** Renderização vetorial customizada em `Graphics2D` com efeito de clique Material Design.
+
+---
+
+## 📸 Galeria de Telas & Demonstração Visual
+
+A interface do **PharmaStation** foi projetada para oferecer uma experiência visual moderna e profissional em ambiente desktop, combinando a estética do FlatLaf macOS Dark com microinterações fluidas.
+
+### 🔐 Autenticação & Painel Deslizante
+
+| Tela de Login (Dark Mode Nativo) | Apresentação Institucional ("Saiba Mais") |
+| :---: | :---: |
+| <img src="assets/login.png" alt="Tela de Login" width="480"/> | <img src="assets/saiba-mais.png" alt="Painel Saiba Mais" width="480"/> |
+
+### 💊 Gestão de Medicamentos & Controle de Acessos
+
+| Catálogo de Estoque com Alertas e Filtros | Painel de Gestão de Usuários (Apenas Admin) |
+| :---: | :---: |
+| <img src="assets/estoque.png" alt="Gestão de Estoque" width="480"/> | <img src="assets/gestao-user.png" alt="Gestão de Usuários" width="480"/> |
+
+### 📑 Relatórios Gerenciais em PDF (JasperReports 7.0)
+
+| Relatório de Posição de Estoque com Marca d'Água | Relatório Analítico de Vendas Consolidado |
+| :---: | :---: |
+| <img src="assets/report-estoque.png" alt="Relatório de Estoque" width="480"/> | <img src="assets/report-venda.png" alt="Relatório de Vendas" width="480"/> |
 
 ---
 
@@ -196,10 +227,10 @@ Caso prefira executar manualmente pelo terminal:
 
 ### 🔑 Credenciais de Acesso Padrão
 
-* **Usuário:** `admin`
-* **Senha:** `admin`
+* **Perfil Padrão (Administrador):** Usuário `admin` | Senha `admin`
+* **Novos Usuários:** Administradores podem cadastrar, editar e remover novos operadores ou administradores diretamente na aba **Usuários** da aplicação.
 
-*(Você também pode alternar pelo botão "Saiba Mais" para visualizar o painel animado com as informações e contexto acadêmico do projeto).*
+*(Você também pode alternar pelo botão "Saiba Mais" na tela de login para visualizar o painel animado com as informações institucionais do projeto).*
 
 ---
 

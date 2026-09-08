@@ -115,30 +115,53 @@ graph TD
 
 ---
 
-## 🚀 FASE 4: Novas Funcionalidades & Negócio (Opcional)
-> **Objetivo:** Adicionar melhorias práticas no fluxo da farmácia.
+## 🚀 FASE 4: Novas Funcionalidades, Identidade Visual & Gestão
+> **Objetivo:** Adicionar melhorias práticas no fluxo da farmácia, unificação da identidade visual e modernização de experiência do usuário.
 
-### Sugestões de itens:
-1. **Filtros e Buscas Dinâmicas:** Busca por nome, categoria ou código com atualização em tempo real na tabela.
-2. **Exportação / Relatórios JasperReports:** Atualizar e validar a emissão de relatórios em PDF de estoque e vendas.
-3. **Alertas de Estoque Baixo:** Destaque visual para produtos com quantidade abaixo do limite mínimo.
+### 4.1. Conquistas Recentes (Concluídas e Validadas):
+* [x] **Identidade Visual Teal (`#0B949E`):** Paleta institucional unificada no FlatLaf, botões semânticos e gradiente moderno no painel deslizante.
+* [x] **Renderização de Alta Fidelidade com HiDPI:** Algoritmo progressivo multi-step bicúbico com `BaseMultiResolutionImage` para nitidez máxima do logo em qualquer DPI do Windows.
+* [x] **Filtros e Buscas Dinâmicas:** Busca reativa em tempo real com `DocumentListener` no Estoque e no PDV.
+* [x] **Alertas de Estoque Baixo:** Realce visual automático em vermelho (`#D9534F`) em negrito com tooltips para produtos com quantidade $\le 5$ unidades.
+* [x] **Padronização Monetária Brasileira:** Formatação universal em `R$ #,##0.00` em toda a interface e relatórios.
+* [x] **Exclusão Segura com Modal:** Botão "Excluir" com confirmação via `ModalDialog` e persistência imediata.
+
+### 4.2. Conquistas Concluídas e Validadas (Sprint Atual):
+* [x] **Modo Dark Padrão:** O sistema inicia diretamente no `FlatMacDarkLaf`, mantendo sincronização com o botão switch para alternância sob demanda.
+* [x] **Módulo Completo de Gestão de Usuários (RBAC / Apenas Admin):**
+  * `UsuarioController` implementado com validações de segurança e regras de negócio.
+  * Expansão de `UsuarioRepository` com métodos `remover()`, `atualizar()` e `buscarPorUsername()` com persistência automática.
+  * Criação do painel visual `PanelUsuarios` com listagem moderna em tabela FlatLaf, badges para os perfis (`Administrador` / `Funcionário`) e busca reativa instantânea.
+  * Modal moderno de cadastro e edição de usuários (`PanelCreateUsuario`).
+  * **Regra Estrita de Segurança:** Acesso concedido exclusivamente para usuários com perfil de `Administrador`.
+* [x] **Apresentação Institucional Refinada ("Saiba Mais"):**
+  * Texto corporativo moderno no painel de informações do login destacando os 4 pilares: Controle de Estoque, PDV, Gestão de Acessos e Alta Confiabilidade.
+* [x] **Reorganização de Navegação no `MainForm`:**
+  * Navegação moderna por abas com FlatLaf styling (`tabType:underlined`), cabeçalho superior com dados da sessão ativa, identificação visual do usuário e botão de encerramento de sessão (Logout).
+  * Exibição condicional da aba de Usuários estritamente para Administradores.
+* [x] **Modernização Visual do JasperReports 7.0:**
+  * Redesenho dos modelos `estoque.jrxml` e `vendas.jrxml` na paleta Teal (`#0B949E`), cabeçalhos com títulos acentuados em caixa alta e data/hora dinâmica de emissão.
+  * Logotipo oficial nítido no cabeçalho e marca d'água elegante com transparência suave (8%) renderizada no `<background>` da página.
+  * Resolução dinâmica de classpath no `ReportManager` garantindo compilação em tempo de execução sem falhas.
 
 ---
 
 ## 🌟 FASE 5: Documentação & Portfólio (Showcase)
-> **Objetivo:** Transformar o PharmaStation em um projeto vitrine no GitHub.
+> **Objetivo:** Transformar o PharmaStation em um projeto vitrine no GitHub pronto para screenshots.
 
 ### O que entra nesta fase:
-1. **Atualização Contínua do README.md:**
-   * O `README.md` deve ser mantido sempre atualizado a cada evolução, contendo os novos comandos (`make check`, `make run`, `make package`), requisitos de execução e instruções em 1 linha.
-2. **README.md Premium:**
-   * Banner institucional do **PharmaStation** e logo da pasta `assets/`.
-   * Badges de tecnologias (Java 21, Swing, FlatLaf, Maven).
-   * Guia "Quick Start" em 2 passos para qualquer pessoa rodar.
-   * Demonstração das telas com GIFs ou capturas de alta qualidade.
-   * Explicação da arquitetura (MVC + Repositórios + Estruturas de Dados próprias).
-3. **Guia de Contribuição e Arquitetura:**
-   * Detalhamento das regras da disciplina de ED1 e decisões de design.
+1. [x] **Capturas de Tela (Screenshots) de Alta Resolução:**
+   * Login elegante em Dark Mode (`assets/login.png`).
+   * Painel institucional de boas-vindas ("Saiba Mais") (`assets/saiba-mais.png`).
+   * Catálogo de Estoque com filtros e realce de estoque (`assets/estoque.png`).
+   * Módulo de Gestão de Usuários e RBAC (`assets/gestao-user.png`).
+   * Relatórios JasperReports em PDF com cabeçalho e marca d'água (`assets/report-estoque.png` e `assets/report-venda.png`).
+2. [x] **README.md Premium:**
+   * Galeria visual em cards/tabelas com screenshots do sistema em alta resolução.
+   * Documentação detalhada dos novos recursos (RBAC, JasperReports 7.0, Dark Mode).
+   * Badges, arquitetura e instruções rápidas de 1 clique.
+3. [ ] **Release Oficial no GitHub (v1.1.0):**
+   * Disparo da esteira automatizada de CI/CD para distribuição dos binários (`PharmaStation.exe` e `pharmastation.jar`).
 
 ---
 

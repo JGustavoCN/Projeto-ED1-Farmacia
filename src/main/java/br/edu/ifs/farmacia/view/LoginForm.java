@@ -7,8 +7,8 @@ import br.edu.ifs.farmacia.util.ImageLoader;
 import br.edu.ifs.farmacia.view.component.PanelCover;
 import br.edu.ifs.farmacia.view.component.PanelLogin;
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -189,10 +189,12 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
+        System.setProperty("log4j2.StatusLogger.level", "OFF");
+        System.setProperty("org.apache.logging.log4j.simplelog.StatusLogger.level", "OFF");
         FlatRobotoFont.install();
         FlatLaf.registerCustomDefaultsSource("themes");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        FlatIntelliJLaf.setup();
+        FlatMacDarkLaf.setup();
         java.awt.EventQueue.invokeLater(() -> {
             LoginForm loginForm = new LoginForm();
             MainController.getInstance().setTelaAtual(loginForm);

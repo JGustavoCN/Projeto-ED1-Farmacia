@@ -1,6 +1,7 @@
 package br.edu.ifs.farmacia.controller;
 
 import br.edu.ifs.farmacia.repository.UsuarioRepository;
+import br.edu.ifs.farmacia.view.LoginForm;
 import br.edu.ifs.farmacia.view.MainForm;
 import javax.swing.JFrame;
 
@@ -18,6 +19,17 @@ public class MainController {
         if (respostaLoginController == false) return;
         telaAtual.dispose();
         MainForm.start();
+    }
+    
+    public void deslogar() {
+        salvarDados();
+        LoginController.getInstance().logout();
+        if (telaAtual != null) {
+            telaAtual.dispose();
+        }
+        LoginForm loginForm = new LoginForm();
+        this.telaAtual = loginForm;
+        loginForm.setVisible(true);
     }
     
     public JFrame getTelaAtual() {

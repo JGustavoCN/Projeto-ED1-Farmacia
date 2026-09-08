@@ -60,22 +60,27 @@ public class PanelLogin extends javax.swing.JLayeredPane {
         subtituloLabel.setForeground(new Color(120, 120, 120));
         informacaoPanel.add(subtituloLabel, "cell 0 2, align center, gapbottom 10");
 
-        // Descricao do sistema
+        // Descricao profissional e moderna do sistema
         JLabel informacoesLabel = new JLabel(
-                "<html><div style='text-align: justify;'>"
-                + "O projeto implementa um sistema de gerenciamento de estoque para uma farmácia, "
-                + "desenvolvido em Java com interface gráfica construída usando Swing. Utilizando a arquitetura MVC, "
-                + "o sistema permite a criação e gestão de usuários com diferentes níveis de acesso, "
-                + "como administradores e funcionários. As principais funcionalidades incluem o controle de estoque, "
-                + "registro de vendas, e geração de relatórios. A persistência de dados é feita por meio da serialização de objetos, "
-                + "garantindo que as informações sejam mantidas entre sessões sem a necessidade de um banco de dados.</div></html>");
+                "<html><div style='text-align: center; line-height: 1.5;'>"
+                + "<p style='margin-bottom: 14px; font-size: 13px;'>"
+                + "O <b>PharmaStation</b> é uma plataforma de gestão farmacêutica projetada para "
+                + "oferecer agilidade operacional, precisão no controle de medicamentos e tomada de decisão estratégica."
+                + "</p>"
+                + "<table style='text-align: left; font-size: 12px; line-height: 1.7; margin: 0 auto;'>"
+                + "<tr><td><span style='color:#0B949E;'>●</span> <b>Controle de Estoque:</b></td><td>Monitoramento de lotes, validades e reposição.</td></tr>"
+                + "<tr><td><span style='color:#0B949E;'>●</span> <b>Ponto de Venda (PDV):</b></td><td>Registro veloz de vendas e relatórios em PDF.</td></tr>"
+                + "<tr><td><span style='color:#0B949E;'>●</span> <b>Gestão de Acessos:</b></td><td>Perfis hierárquicos com gestão restrita ao admin.</td></tr>"
+                + "<tr><td><span style='color:#0B949E;'>●</span> <b>Alta Confiabilidade:</b></td><td>Estruturas de dados otimizadas e persistência contínua.</td></tr>"
+                + "</table>"
+                + "</div></html>");
 
-        informacoesLabel.setFont(new Font("sansserif", Font.PLAIN, 15));
+        informacoesLabel.setFont(new Font("sansserif", Font.PLAIN, 13));
         informacoesLabel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:25;"
                 + "background:$Table.background");
-        informacoesLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        informacaoPanel.add(informacoesLabel, "cell 0 3, grow, align center, gapleft 30, gapright 30, gaptop 5, gapbottom 10");
+        informacoesLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        informacaoPanel.add(informacoesLabel, "cell 0 3, grow, align center, gapleft 20, gapright 20, gaptop 5, gapbottom 10");
 
         informacaoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }

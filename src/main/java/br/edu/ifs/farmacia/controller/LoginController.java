@@ -37,6 +37,22 @@ public class LoginController {
         return usuarioLogado;
     }
     
+    public void setUsuarioLogado(Usuario usuarioLogado) {
+        this.usuarioLogado = usuarioLogado;
+    }
+
+    public void logout() {
+        this.usuarioLogado = null;
+    }
+
+    public boolean isAdministrador() {
+        return loginAdministrador();
+    }
+
+    public boolean isFuncionario() {
+        return loginFuncionario();
+    }
+
     public boolean loginAdministrador() {
         return usuarioLogado != null && TipoUsuario.ADMINISTRADOR == usuarioLogado.getTipo();
     }

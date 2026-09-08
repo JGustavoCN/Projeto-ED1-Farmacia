@@ -71,6 +71,7 @@ public class PanelProdutos extends javax.swing.JPanel {
 
     private void init() {
 
+        switchDarkLight.setSelected(FlatLaf.isLafDark());
         switchDarkLight.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:999;"
                 + "borderWidth:0;"

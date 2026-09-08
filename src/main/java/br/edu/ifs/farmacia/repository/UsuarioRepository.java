@@ -47,10 +47,69 @@ public class UsuarioRepository implements Serializable {
 
     // Adiciona um novo usuário
     public boolean adicionar(Usuario usuario) {
-        if (usuario == null || usuarios.contem(usuario)) {
+        if (usuario == null || buscarPorUsername(usuario.getUsername()) != null) {
             return false;
         }
         usuarios.adicionar(usuario);
+        salvarTodos();
+        return true;
+    }
+
+    // Busca um usuário por username (case-insensitive)
+    public Usuario buscarPorUsername(String username) {
+        if (username == null) {
+            return null;
+        }
+        for (int i = 0; i < usuarios.tamanho(); i++) {
+            Usuario usuario = usuarios.pegar(i);
+            if (usuario.getUsername().equalsIgnoreCase(username.trim())) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    // Remove um usuário existente
+    public boolean remover(Usuario usuario) {
+        if (usuario == null) {
+            return false;
+        }
+        Usuario encontrado = buscarPorUsername(usuario.getUsername());
+        if (encontrado != null) {
+            usuarios.remover(encontrado);
+            salvarTodos();
+            return true;
+        }
+        return false;
+    }
+
+    // Atualiza um usuário existente
+    public boolean atualizar(String usernameOriginal, Usuario usuarioAtualizado) {
+        if (usernameOriginal == null || usuarioAtualizado == null) {
+            return false;
+        }
+        Usuario existente = buscarPorUsername(usernameOriginal);
+        if (existente == null) {
+            return false;
+        }
+
+        // Se o username foi alterado, checar se o novo username já está em uso
+        if (!usernameOriginal.equalsIgnoreCase(usuarioAtualizado.getUsername().trim())) {
+            if (buscarPorUsername(usuarioAtualizado.getUsername().trim()) != null) {
+                return false;
+            }
+        }
+
+        // Se mudou o perfil (Administrador vs Funcionario), substitui na lista
+        if (existente.getTipo() != usuarioAtualizado.getTipo()) {
+            usuarios.remover(existente);
+            usuarios.adicionar(usuarioAtualizado);
+        } else {
+            existente.setUsername(usuarioAtualizado.getUsername().trim());
+            existente.setPassword(usuarioAtualizado.getPassword().trim());
+        }
+
+        salvarTodos();
         return true;
     }
 
