@@ -26,13 +26,13 @@ jobs:
       - name: Permissão de Execução para o Maven Wrapper
         run: chmod +x mvnw
 
-      - name: [1/3] Compilação Limpa & Linter (-Xlint:all)
+      - name: "[1/3] Compilacao Limpa e Linter (-Xlint:all)"
         run: ./mvnw clean compile
 
-      - name: [2/3] Bateria de Testes Automatizados
+      - name: "[2/3] Bateria de Testes Automatizados"
         run: ./mvnw test
 
-      - name: [3/3] Empacotamento do Fat JAR Executável
+      - name: "[3/3] Empacotamento do Fat JAR Executavel"
         run: ./mvnw package -DskipTests
 
       - name: Upload do Executável para Validação do Artefato
